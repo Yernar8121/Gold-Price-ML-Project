@@ -1,22 +1,53 @@
-Gold Price Prediction A Machine Learning Research Summary
+# Gold Price Prediction: A Machine Learning Research Summary
 
-Project Overview and Philosophy
-This project is a comprehensive machine learning research on forecasting daily gold prices. The primary goal was not just to build a predictive model but to deeply analyze market noise and prevent data leakage. We wanted to discover the most mathematically sound way to frame a financial time series problem.
+## Project Overview and Philosophy
 
-Data Validation and Leakage Prevention
-To ensure our models were learning real patterns rather than cheating we strictly removed autoregressive features like todays price when attempting to predict absolute future values. For model tuning we abandoned standard Cross Validation in favor of TimeSeriesSplit. This guaranteed that our models were trained and tested strictly chronologically and never looked into future data.
+This project focused on using machine learning to forecast daily gold prices. The goal was not only to build a predictive model, but also to understand the challenges of financial time series prediction, especially market noise and data leakage.
 
-The Three Experimental Approaches
-We tested three different ways to predict the market evolving our strategy based on the results.
+A major part of the research was finding the most mathematically sound way to frame the problem. Instead of simply testing models, we carefully examined what the models were allowed to know and whether their predictions reflected real learning or hidden leakage from future information.
 
-Approach 3 Predicting Absolute Price
-We asked the models to predict tomorrows exact gold price using only independent features like Volume and Volatility without knowing todays price. The result was a massive error because without knowing where the price is today machine learning cannot guess the absolute value of an asset.
+## Data Validation and Leakage Prevention
 
-Approach 2 Predicting Price Delta Regression
-We shifted to predicting the exact dollar change for tomorrow. The results achieved an error of approximately 18.90 which slightly underperformed the Naive Baseline of 18.78 which simply predicted zero change every day. This proved that trying to predict the exact amplitude of a price swing is less efficient than assuming no volatility.
+To avoid data leakage, we removed autoregressive features such as today’s gold price when predicting future absolute prices. This ensured that the models could not “cheat” by relying on information that would make the task unrealistically easy.
 
-Approach 1 Predicting Market Direction Classification
-We simplified the task to predicting if the price would go UP or DOWN. Our Random Forest Classifier successfully beat the naive baseline achieving an accuracy of 53.90 percent. This proved that predicting the general vector of the market is possible.
+For model tuning, we used `TimeSeriesSplit` instead of standard cross-validation. This allowed the data to be split chronologically, meaning the models were always trained on past data and tested on future data. As a result, the evaluation process better reflected real-world forecasting conditions.
 
-Model Selection Strategy
-We structured our modeling as a competition between Simple and Complex algorithms. We used Logistic Regression and Ridge Regression as linear sanity checks to see if simple equations could solve the problem. We used Random Forest and Gradient Boosting to capture complex nonlinear market conditions and remain robust against market outliers.
+## The Three Experimental Approaches
+
+We tested three different approaches to predicting the gold market. Each approach helped us better understand the strengths and limitations of machine learning in this context.
+
+### Approach 3: Predicting Absolute Price
+
+In this approach, the models were asked to predict tomorrow’s exact gold price using only independent features such as volume and volatility, without knowing today’s price.
+
+The result was a very large prediction error. This showed that without knowing the current price level, machine learning models cannot reliably estimate the absolute value of an asset. In financial markets, the current price is a critical reference point.
+
+### Approach 2: Predicting Price Delta with Regression
+
+Next, we shifted the target from predicting the exact future price to predicting the dollar change in price for the next day.
+
+This approach produced an error of approximately **18.90**, which was slightly worse than the naive baseline of **18.78**. The naive baseline simply predicted zero change every day.
+
+This result showed that predicting the exact size of a daily price movement is extremely difficult. In this case, assuming no change was slightly more effective than trying to forecast the exact price swing.
+
+### Approach 1: Predicting Market Direction with Classification
+
+Finally, we simplified the task by predicting whether the price would move **up** or **down** the next day.
+
+This was the most successful approach. The Random Forest Classifier achieved an accuracy of **53.90%**, beating the naive baseline. Although the improvement was modest, it suggested that predicting the general direction of the market is more realistic than predicting the exact price or exact price change.
+
+## Model Selection Strategy
+
+We designed the modeling process as a comparison between simple and complex algorithms.
+
+Logistic Regression and Ridge Regression were used as linear baseline models. These helped us test whether simple mathematical relationships were enough to explain the target variable.
+
+Random Forest and Gradient Boosting were used to capture more complex, nonlinear patterns in the market. These models were also useful because they are more robust to outliers and can handle interactions between features more effectively.
+
+## Key Conclusion
+
+The main finding of this research is that the way a financial forecasting problem is framed matters more than the complexity of the model itself.
+
+Predicting the exact future price was not realistic without including the current price. Predicting the exact price change was also difficult and did not outperform a simple baseline. However, predicting the direction of the market showed measurable improvement, making classification the most promising approach in this project.
+
+Overall, the project demonstrated that successful machine learning in financial markets depends heavily on careful data validation, leakage prevention, realistic baselines, and choosing the right prediction target.

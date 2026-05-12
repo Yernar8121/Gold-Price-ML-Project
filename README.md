@@ -1,4 +1,4 @@
-. Project Overview and Philosophy
+1. Project Overview and Philosophy
 This project is a comprehensive machine learning research on forecasting daily gold prices. The primary goal was not just to build a predictive model, but to deeply analyze market noise, strictly prevent data leakage (look-ahead bias), and discover the most mathematically sound way to frame a financial time-series problem.
 
 2. Data Validation and Leakage Prevention
